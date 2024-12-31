@@ -4,6 +4,7 @@ import dotenv from 'dotenv'; // Import dotenv for environment variables
 import morgan from 'morgan'; // Import morgan for logging
 import connectDB from './config/db.js';
 import authRoute from './routes/authRoute.js';
+import cors from 'cors';
 const app = express();
 
 
@@ -14,6 +15,7 @@ connectDB();
 
 
 // Middleware to parse JSON bodies
+app.use(cors());
 app.use(express.json());
 
 app.use(morgan('dev'))

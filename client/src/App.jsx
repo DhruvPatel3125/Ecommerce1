@@ -5,7 +5,7 @@ import Homepages from './pages/Homepages'
 import About from './pages/About'
 import PageNot from './pages/PageNot'
 import Register from './pages/Auth/Register'
-import {TostContainer,toast} from 'react-toastify';
+import {TostContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App(){
 
