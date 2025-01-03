@@ -7,19 +7,19 @@ export const registerControler = async (req, res) => {
     const { name, email, password, phone, address } = req.body;
     //validation
     if (!name) {
-      return res.send({ error: "name is required" });
+      return res.send({ message: "name is required" });
     }
     if (!email) {
-      return res.send({ error: "email is required" });
+      return res.send({ message: "email is required" });
     }
     if (!password) {
-      return res.send({ error: "password is required" });
+      return res.send({ message: "password is required" });
     }
     if (!phone) {
-      return res.send({ error: "phone no is required" });
+      return res.send({ message: "phone no is required" });
     }
     if (!address) {
-      return res.send({ error: "address is required" });
+      return res.send({ message: "address is required" });
     }
     //check user
     const exsitingUser = await userModel.findOne({ email });

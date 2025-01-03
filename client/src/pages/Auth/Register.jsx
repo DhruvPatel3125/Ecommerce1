@@ -3,7 +3,7 @@ import Layout from "./../../components/layouts/Layout";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-// import "../../styles/AuthStyles.css";
+import "../../styles/AuthStyles.css";
 const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -34,10 +34,9 @@ const Register = () => {
           toast.error("Something went wrong");
         }
       };
-    
       return (
         <Layout title="Register - Ecommer App">
-          <div className="register">
+          <div className="form-container">
             <form onSubmit={handleSubmit}>
               <h4 className="title">REGISTER FORM</h4>
               <div className="mb-3">
