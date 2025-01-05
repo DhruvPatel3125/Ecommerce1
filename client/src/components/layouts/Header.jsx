@@ -2,9 +2,19 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { FaShoppingBag } from "react-icons/fa";
 import { useAuth } from "../../context/Auth";
+import tost from "react-hot-toast";
 
 function Header() {
   const [auth,setAuth] = useAuth();
+  const handalLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,
+      token: "",
+    })
+    localStorage.removeItem("auth");
+    tost.success("Logout Successfully");
+  }
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -51,7 +61,7 @@ function Header() {
                 </NavLink>
               </li>
               </>):(<> <li className="nav-item">
-                <NavLink to="/login" className="nav-link">
+                <NavLink onClick={handalLogout} to="/login" className="nav-link">
                   Logout
                 </NavLink>
               </li>

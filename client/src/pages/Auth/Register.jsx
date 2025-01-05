@@ -6,18 +6,28 @@ import toast from "react-hot-toast";
 import "../../styles/AuthStyles.css";
 
 const Register = () => {
-  // Define state variables for each input field
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
-  // form submit handler
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Basic validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return toast.error("Please enter a valid email address");
+    }
+    if (!/^\d{10}$/.test(phone)) {
+      return toast.error("Phone number must be 10 digits");
+    }
+    if (password.length < 6) {
+      return toast.error("Password must be at least 6 characters long");
+    }
+
     try {
       const res = await axios.post("/api/v1/auth/register", {
         name,
@@ -26,25 +36,29 @@ const Register = () => {
         phone,
         address,
       });
+
       if (res && res.data.success) {
-        toast.success(res.data.message);
-        navigate("/login");
+        toast.success("Registration successful! Redirecting to login...");
+        setTimeout(() => navigate("/login"), 2000); // Optional delay
       } else {
-        toast.error(res.data.message);
+        toast.error(res.data.message || "Registration failed. Please try again.");
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+      console.error("Registration Error:", error);
+      const errorMessage =
+        error.response?.data?.message || "An unexpected error occurred";
+      toast.error(errorMessage);
     }
   };
 
   return (
-    <Layout title="Register - Ecommer App">
+    <Layout title="Register - E-commerce App">
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <h4 className="title">REGISTER FORM</h4>
 
           <div className="mb-3">
+            <label htmlFor="exampleInputName">Name</label>
             <input
               type="text"
               className="form-control"
@@ -52,11 +66,12 @@ const Register = () => {
               placeholder="Enter Your Name"
               required
               value={name}
-              onChange={(e) => setName(e.target.value)} // Bind to state
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
 
           <div className="mb-3">
+            <label htmlFor="exampleInputEmail1">Email</label>
             <input
               type="email"
               className="form-control"
@@ -64,11 +79,12 @@ const Register = () => {
               placeholder="Enter Your Email"
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)} // Bind to state
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
           <div className="mb-3">
+            <label htmlFor="exampleInputPassword1">Password</label>
             <input
               type="password"
               className="form-control"
@@ -76,11 +92,12 @@ const Register = () => {
               placeholder="Enter Your Password"
               required
               value={password}
-              onChange={(e) => setPassword(e.target.value)} // Bind to state
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
           <div className="mb-3">
+            <label htmlFor="exampleInputPhone">Phone</label>
             <input
               type="text"
               className="form-control"
@@ -88,11 +105,12 @@ const Register = () => {
               placeholder="Enter Your Phone"
               required
               value={phone}
-              onChange={(e) => setPhone(e.target.value)} // Bind to state
+              onChange={(e) => setPhone(e.target.value)}
             />
           </div>
 
           <div className="mb-3">
+            <label htmlFor="exampleInputAddress">Address</label>
             <input
               type="text"
               className="form-control"
@@ -100,7 +118,7 @@ const Register = () => {
               placeholder="Enter Your Address"
               required
               value={address}
-              onChange={(e) => setAddress(e.target.value)} // Bind to state
+              onChange={(e) => setAddress(e.target.value)}
             />
           </div>
 

@@ -6,6 +6,8 @@ import About from './pages/About'
 import PageNot from './pages/PageNot'
 import Register from './pages/Auth/Register'
 import Login from './pages/Auth/Login'
+import DashBord from './pages/user/DashBord'
+import PrivateRoute from './components/layouts/Routes/Privaate'
 function App(){
 
   return (
@@ -13,6 +15,9 @@ function App(){
    
      <Routes>
         <Route path="/" element={<Homepages />} />
+        <Route path="/dashboard" element={<PrivateRoute/>}>
+        <Route path="" element={<DashBord />} />
+         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
