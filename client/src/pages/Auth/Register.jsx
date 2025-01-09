@@ -11,6 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [answer, setanswer] = useState("");
 
   const navigate = useNavigate();
 
@@ -35,6 +36,7 @@ const Register = () => {
         password,
         phone,
         address,
+        answer,
       });
 
       if (res && res.data.success) {
@@ -119,6 +121,18 @@ const Register = () => {
               required
               value={address}
               onChange={(e) => setAddress(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+           
+            <input
+              type="text"
+              className="form-control"
+              id="exampleInputAddress"
+              placeholder="What is your ex name"
+              required
+              value={answer}
+              onChange={(e) => setanswer(e.target.value)}
             />
           </div>
 

@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 export const registerControler = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone, address,answer } = req.body;
     //validation
     if (!name) {
       return res.send({ message: "name is required" });
@@ -20,6 +20,9 @@ export const registerControler = async (req, res) => {
     }
     if (!address) {
       return res.send({ message: "address is required" });
+    }
+    if (!answer) {
+      return res.send({ message: "answer is required" });
     }
     //check user
     const exsitingUser = await userModel.findOne({ email });
@@ -38,7 +41,8 @@ export const registerControler = async (req, res) => {
       email,
       phone,
       address,
-      password: hashedPassword  
+      password: hashedPassword,
+      answer
     }).save();
 
 res.status(201).send({
@@ -99,6 +103,7 @@ export const loginControler = async (req, res) => {
         email:user.email,
         phone:user.phone,
         address:user.address,
+        role:user.role,
       },token,
     })
   } catch (error) {
@@ -111,7 +116,57 @@ export const loginControler = async (req, res) => {
   }
 
 }
+//forgot password
+
+export const forgotPasswordController = async (req, res) => {
+  try {
+    const { email,answer,newPassword } = req.body;
+    //check user
+    if(!email){
+      res.status(400).send({
+        message:"email is require"
+      })
+    }
+    if(!answer){
+      res.status(400).send({
+        message:"question is require"
+      })
+    }
+    if(!newPassword){
+      res.status(400).send({
+        message:"New Password is required"
+      })
+    }
+    //check 
+    const user = await userModel.findOne({ email,answer });
+
+    //validation
+    if(!user){
+      res.status(400).send({
+        success:false,
+        message: "User not found",
+        });
+    }
+    const hashed = await hashPassword(newPassword)
+    await userModel.findByIdAndUpdate(user._id,{password:hashed})
+    res.status(200).send({
+      success: true,
+      message: "Password updated successfully",
+    })
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({
+      success: false,
+      message: "somthing went wrong",
+      error
+    })
+  }
+
+
 
 export const testController = (req,res)=>{
  res.send("protected route")
 }
+
+//6:26

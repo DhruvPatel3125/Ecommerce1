@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate,useLocation } from "react-router-dom";
 
-const Spinner = () => {
+
+const Spinner = ({path = "login"}) => {
   const [count, setCount] = useState(5); // Fixed typo
   const navigate = useNavigate();
   const location = useLocation();
@@ -10,7 +11,7 @@ const Spinner = () => {
     const interval = setInterval(() => {
       setCount((prevValue) => {
         if (prevValue <= 1) {
-          navigate("/login",{
+          navigate(`/${path}`,{
             state: location.pathname,
           }); // Navigate when count reaches 0
           clearInterval(interval); // Clear interval to avoid memory leaks
@@ -21,7 +22,7 @@ const Spinner = () => {
     }, 1000);
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, [navigate]); // Added `navigate` to dependency array
+  }, [count,navigate,location,path]); // Added `navigate` to dependency array
 
   return (
     <div
